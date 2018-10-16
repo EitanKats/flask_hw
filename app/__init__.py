@@ -28,7 +28,11 @@ def app_factory(config_name):
     @app.route('/messages', methods=['GET'])
     def read_message():
         try:
+            copy = request.args.get('copy')
+            if not copy:
+                read_message_from_neighbour()
             message = messages.pop()
+
             return message
         except IndexError:
             abort(404, {"error": "no messages left"})
@@ -38,7 +42,13 @@ def app_factory(config_name):
             payload = {'copy': True}
             r = requests.post(app.config['BACKUP_HOST'], data=message, params=payload, timeout=10)
         except Exception as e:
-            app.logger.error("could not send to backup host reason: {0}".format(e))
+            abort(503, {'error': 'Backup server unavailable'})
+
+    def read_message_from_neighbour():
+        try:
+            payload = {'copy': True}
+            r = requests.get(app.config['BACKUP_HOST'], params=payload, timeout=10)
+        except Exception as e:
             abort(503, {'error': 'Backup server unavailable'})
 
     return app
