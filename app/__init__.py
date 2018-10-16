@@ -39,6 +39,6 @@ def app_factory(config_name):
             r = requests.post(app.config['BACKUP_HOST'], data=message, params=payload, timeout=10)
         except Exception as e:
             app.logger.error("could not send to backup host reason: {0}".format(e))
-            abort(503, error='Backup server unavailable')
+            abort(503, {'error': 'Backup server unavailable'})
 
     return app
