@@ -12,19 +12,19 @@ class MessagesTest(unittest.TestCase):
     def test_message_adding(self):
         res = self.client().post('/messages', data=self.message)
         print(res.data)
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(201, res.status_code)
         self.assertIn('received', str(res.data))
 
     def test_api_when_there_are_no_messages(self):
         res = self.client().get('/messages')
         print(res.data)
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(404, res.status_code)
         self.assertIn('no messages left', str(res.data))
 
     def test_message_adding(self):
         self.client().post('/messages', data=self.message)
         res = self.client().get('/messages')
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(200, res.status_code)
         # self.assertIn('i am a message', str(res.data))
 
 

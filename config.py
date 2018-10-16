@@ -13,17 +13,20 @@ class Config(object):
 class ProductionConfig(Config):
     DEBUG = False
     BACKUP_HOST = 'http://localhost:5080'
+    SEND_BACKUP = True
 
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     BACKUP_HOST = 'http://localhost:5080'
+    SEND_BACKUP = True
 
 
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
+    SEND_BACKUP = False
 
 
 app_config = {
