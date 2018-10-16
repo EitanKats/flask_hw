@@ -16,11 +16,11 @@ def app_factory(config_name):
     @app.route('/messages', methods=['POST'])
     def add_message():
         message = request.data
-        messages.append(message)
         copy = request.args.get('copy')
         if not copy:
             send_message_to_neighbour(message)
 
+        messages.append(message)
         response = jsonify({'status': 'received'})
         response.status_code = 201
         return response
