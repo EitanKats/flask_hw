@@ -1,6 +1,7 @@
+import requests
 from flask import Flask
 from flask import request, jsonify
-import requests
+
 from config import app_config
 
 messages = []
@@ -34,8 +35,7 @@ def app_factory(config_name):
 
     def send_message_to_neighbour(message):
         try:
-            pass
-        # r = requests.post(app_config['development'].BACKUP_HOST, data=message, timeout=10)
+            r = requests.post(app.config['BACKUP_HOST'], data=message, timeout=10)
         except Exception as e:
             app.logger.error("could not send to backup host reason: {0}".format(e))
 
