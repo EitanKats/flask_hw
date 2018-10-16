@@ -12,20 +12,22 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-    NEIGHBOUR_ADDRESS = 'http://localhost:5080'
+    BACKUP_HOST = 'http://localhost:5080'
 
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    NEIGHBOUR_ADDRESS = 'http://localhost:5080'
+    BACKUP_HOST = 'http://localhost:5080'
 
 
 class TestingConfig(Config):
     TESTING = True
+    DEBUG = True
 
 
 app_config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestingConfig
 }
