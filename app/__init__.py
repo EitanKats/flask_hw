@@ -8,6 +8,8 @@ messages = []
 
 
 def app_factory(config_name):
+    if not config_name:
+        config_name = 'development'
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
 
