@@ -18,7 +18,7 @@ def app_factory(config_name):
         message = request.data
         messages.append(message)
         copy = request.args.get('copy')
-        if copy:
+        if not copy:
             send_message_to_neighbour(message)
 
         response = jsonify({'status': 'received'})
@@ -37,7 +37,8 @@ def app_factory(config_name):
 
     def send_message_to_neighbour(message):
         try:
-            r = requests.post(app.config['BACKUP_HOST'], data=message, timeout=10)
+            payload = {'copy': True}
+            r = requests.post(app.config['BACKUP_HOST'], data=message, params=payload, timeout=10)
         except Exception as e:
             app.logger.error("could not send to backup host reason: {0}".format(e))
 
